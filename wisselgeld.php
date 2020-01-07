@@ -1,10 +1,22 @@
 <?php
-$aantal = ($argv[1]);
 define("GELD", array(50, 20, 10, 5, 2, 1, 0.50, 0.20, 0.10, 0.05, 0.02, 0.01));
-
+try{
+    if (isset($argv[1])) {
+        $aantal = $argv[1];
+    }else{
+        throw new Exception("Geen geldig bedrag mee gegeven!".PHP_EOL);
+    }if ($aantal < 0) {
+        throw new Exception("Je kunt geen negative getalen opgeven!".PHP_EOL);
+    }if (!is_numeric($aantal)){
+        throw new Exception("Je hebt geen bedrag meegegeven dat omgewisseld dient te worden!".PHP_EOL);
+    }
+}catch (Exception $errorMelding){
+    echo "Error: ".$errorMelding->getMessage();
+    exit();
+}
 function wisselgeld($aantal)
 {
-    if (is_numeric($aantal)) {
+    {
         foreach (GELD as $uitkomst) {
             $vloer = 0;
             if ($aantal >= $uitkomst) {
@@ -21,11 +33,8 @@ function wisselgeld($aantal)
                 }
             }
         }
-    }else{
-        throw new Exception("Je hebt geen bedrag meegegeven dat omgewisseld dient te worden");
     }
-}try{
-    wisselgeld($aantal);
-}catch (Exception $errorMelding){
-    echo "Error: ".$errorMelding->getMessage();
 }
+ wisselgeld($aantal);
+
+
